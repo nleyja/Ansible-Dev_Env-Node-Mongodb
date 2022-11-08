@@ -35,6 +35,7 @@ Vagrant.configure("2") do |db|
     end
     mongodb.vm.provision "ansible" do |ansible|
       ansible.playbook = "env/mongodb/playbook.yml"
+    end
   end
 end
 
@@ -45,12 +46,12 @@ Vagrant.configure("2") do |config|
     nodeapp.vm.box = "generic/ubuntu2010"
     nodeapp.vm.network "private_network", ip: "192.168.56.10"
     nodeapp.hostsupdater.aliases = ["nology.training"]
-    nodeapp.vm.define "nodeapp"
     nodeapp.vm.provider "virtualbox" do |vb|
       nodeapp.vm.synced_folder "app/", "/home/vagrant/app/"
       nodeapp.vm.synced_folder "env/", "/home/vagrant/env"
     end
     nodeapp.vm.provision "ansible" do |ansible|
       ansible.playbook = "env/nodeapp/playbook.yml"
+    end
   end
 end
