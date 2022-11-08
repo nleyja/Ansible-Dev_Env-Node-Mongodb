@@ -33,7 +33,8 @@ Vagrant.configure("2") do |db|
     mongodb.vm.provider "virtualbox" do |vb|
       mongodb.vm.synced_folder "env/", "/home/vagrant/env"
     end
-    mongodb.vm.provision "shell", path: "env/mongodb/script.sh"
+    mongodb.vm.provision "ansible" do |ansible|
+      ansible.playbook = "env/mongodb/playbook.yml"
   end
 end
 
@@ -48,8 +49,7 @@ Vagrant.configure("2") do |config|
       nodeapp.vm.synced_folder "app/", "/home/vagrant/app/"
       nodeapp.vm.synced_folder "env/", "/home/vagrant/env"
     end
-    # nodeapp.vm.provision "shell", inline:"echo 'export DB_PATH=192.168.56.20' >> /etc/profile.d/myvars.sh", run: "always"
-    # nodeapp.vm.provision "shell", path: "env/nodeapp/script.sh"
-    nodeapp.vm.provision "shell", path: "env/nodeapp/script.sh", env: {"DB_PATH"=>"192.168.56.20"}
+    nodeapp.vm.provision "ansible" do |ansible|
+      ansible.playbook = "env/nodeapp/playbook.yml"
   end
 end
